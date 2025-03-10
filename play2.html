@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chasse au Trésor - Niveau 2</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #222;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+        }
+        #game-container {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+        }
+        button {
+            padding: 10px;
+            background: #ff6f61;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 16px;
+        }
+        .hidden { display: none; }
+        .invisible { opacity: 0; }
+        #secret-text {
+            display: none;
+            font-weight: bold;
+            color: yellow;
+        }
+        #change-color {
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>🚀 Chasse au Trésor - Niveau 1 🚀</h1>
+        <p id="question">Défi 1 : Trouve un message caché en inspectant le code !</p>
+        <p id="secret-text">🎉 Bravo ! Passe au prochain défi.</p>
+        <button id="next" class="hidden" onclick="nextChallenge()">Suivant ➡️</button>
+    </div>
+
+    <script>
+        console.log("%c💡 Indice : Regarde dans le HTML, une surprise t'attend !", "color: yellow; font-size: 16px;");
+        
+        let level = 1;
+        
+        function nextChallenge() {
+            level++;
+            let question = document.getElementById("question");
+            let nextButton = document.getElementById("next");
+
+            if (level === 2) {
+                question.innerText = "Défi 2 : Clique sur le bouton invisible !";
+                let btn = document.createElement("button");
+                btn.innerText = "Clique ici";
+                btn.classList.add("invisible");
+                btn.onclick = function() {
+                    alert("Bravo ! Tu as trouvé le bouton caché.");
+                    nextButton.classList.remove("hidden");
+                };
+                document.getElementById("game-container").appendChild(btn);
+            } 
+            else if (level === 3) {
+                question.innerText = "Défi 3 : Change ce texte en 'J'ai réussi !' en inspectant l'élément.";
+                question.setAttribute("contenteditable", "true");
+                question.style.border = "1px dashed white";
+                question.addEventListener("input", function() {
+                    if (question.innerText.toLowerCase() === "j'ai réussi !") {
+                        alert("Bien joué !");
+                        nextButton.classList.remove("hidden");
+                    }
+                });
+            } 
+            else if (level === 4) {
+                question.innerText = "Défi 4 : Ouvre la console (F12) et suis l'indice.";
+                console.log("Tape 'valide()' dans la console pour passer au défi suivant !");
+                window.valide = function() {
+                    alert("Super ! Défi réussi.");
+                    nextButton.classList.remove("hidden");
+                };
+            } 
+            else if (level === 5) {
+                question.innerText = "Défi 5 : Active le bouton en modifiant son code dans le DevTools.";
+                let btn = document.createElement("button");
+                btn.innerText = "Bouton désactivé";
+                btn.setAttribute("disabled", "true");
+                btn.id = "disabled-btn";
+                btn.onclick = function() {
+                    alert("Bien joué ! Tu as activé le bouton.");
+                    nextButton.classList.remove("hidden");
+                };
+                document.getElementById("game-container").appendChild(btn);
+            } 
+            else if (level === 6) {
+                question.innerText = "Défi 6 : Change la couleur de ce bouton pour voir le code secret !";
+                let btn = document.createElement("button");
+                btn.innerText = "Change ma couleur";
+                btn.id = "change-color";
+                btn.onclick = function() {
+                    if (btn.style.backgroundColor !== "black") {
+                        alert("Bravo ! Voici ton code : 4D3V3L0P");
+                        nextButton.classList.remove("hidden");
+                    }
+                };
+                document.getElementById("game-container").appendChild(btn);
+            } 
+            else {
+                question.innerText = "🎉 Félicitations ! Tu as terminé le niveau 2";
+                let link = document.createElement("a");
+                link.href = "play1.html";
+                link.innerText = "➡️ Rejouer le Niveau 1";
+                document.getElementById("game-container").appendChild(link);
+                nextButton.classList.add("hidden");
+            }
+        }
+    </script>
+</body>
+</html>
